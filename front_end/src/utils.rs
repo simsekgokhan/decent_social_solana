@@ -8,8 +8,24 @@ use yaml_rust::YamlLoader;
 
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct UserProfile {
+    pub user_id: Pubkey,
+    pub followers: u32,
     pub blocked_account: bool,
-    pub xx: u32,    
+}
+
+pub fn get_program_obj_size() -> Result<usize> {
+    let encoded = 
+        UserProfile {
+            user_id: Pubkey::default(), 
+            followers: 0, 
+            blocked_account: false 
+        }
+        .try_to_vec()
+        .map_err(|e| Error::SerializationError(e))?;
+    Ok(encoded.len())
+    // E.g.
+    // Ok(4 + (3 * 4)) // vec<u32> w/ 3 elements
+    // Ok(3 * 4) // array[u32, 3] = 12 bytes
 }
 
 /// pretty_print
@@ -78,16 +94,6 @@ pub fn pda_key(user: &Pubkey, program: &Pubkey) -> Result<Pubkey> {
         &seed_for_program_derived_account_creation(),
         program,
     )?)
-}
-
-pub fn get_program_obj_size() -> Result<usize> {
-    let encoded = UserProfile { blocked_account: false, xx: 0 }
-        .try_to_vec()
-        .map_err(|e| Error::SerializationError(e))?;
-    Ok(encoded.len())
-    // E.g.
-    // Ok(4 + (3 * 4)) // vec<u32> w/ 3 elements
-    // Ok(3 * 4) // array[u32, 3] = 12 bytes
 }
 
 pub fn get_program_obj(data: &[u8]) -> Result<UserProfile> {

@@ -13,8 +13,9 @@ entrypoint!(process_instruction);
 // `UserProfile` type defined by the client/front_end
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct UserProfile {
+    pub user_id: Pubkey,
+    pub followers: u32,
     pub blocked_account: bool,
-    pub xx: u32
 }
 
 #[derive(Copy, Clone)]
@@ -43,8 +44,9 @@ pub fn process_instruction(
     if fb == ACTION::CreateNewProfile as u8 {
         msg!("--- instruction CreateNewProfile");
         let mut program_data = UserProfile::try_from_slice(&pda.data.borrow())?;
+        program_data.user_id = *pda.key;
         program_data.blocked_account = false;
-        program_data.xx = 65;
+        program_data.followers = 100;
         program_data.serialize(&mut &mut pda.data.borrow_mut()[..])?;
         msg!("--- CreateNewProfile Success");
     }    else {

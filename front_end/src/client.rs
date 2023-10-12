@@ -17,16 +17,16 @@ pub fn establish_connection() -> RpcClient {
         CommitmentConfig::confirmed(),
     );
     println!(
-        "\n1. Connected to remote solana node running version ({}).\n",
+        "\n>> Connected to remote solana node running version ({}).\n",
         connection.get_version().unwrap()
     );
     connection
 }
 
 pub fn print_program_info(user: &Keypair, connection: &RpcClient, program: &Keypair) {
-    println!("\n3. Info");
+    println!("\n>> Info");
     let user_balance = get_user_balance(&user, &connection).unwrap();
-    println!("User   : {:?}",user.pubkey());
+    println!("User   : {:?}", user.pubkey());
     println!("Balance: {} Sol ({} lamports)", 
         lamports_to_sol(user_balance), pp(user_balance)
     );    
@@ -35,7 +35,7 @@ pub fn print_program_info(user: &Keypair, connection: &RpcClient, program: &Keyp
     println!("PDA    : {:?}", pda);
     println!("  (aka Program's data account to read/write)");
     println!("  (aka Derived addr for a given user and program combination)");
-    println!("PDA name: {}\n", seed_for_program_derived_account_creation());
+    println!("PDA seed: {}\n", seed_for_program_derived_account_creation());
 }
 
 pub fn get_user_balance(user: &Keypair, connection: &RpcClient) -> Result<u64> {
