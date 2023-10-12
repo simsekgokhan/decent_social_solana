@@ -1,8 +1,58 @@
-# Decentralized Social App (decent_social)
+# decent_social (Decentralized Social Media DApp)
 
-## 1. Setup
+This repo consists of two independent projects, for convinience they are placed together.   
+`program` directory has Solana program (smart contract).  
+`front_end` directory has the client side app.  
 
-#### Versions:  
+## 1. How to use
+Hint: For first time users, see section 2. Setup below.
+
+#### Build & Deploy Solana program (smart contract)
+
+```
+cd program
+cargo build-bpf
+solana program deploy target/deploy/decent_social.so 
+```
+
+#### Use deployed Solana program 
+```
+cd front_end
+cargo r user10
+    >> Connected to remote solana node running version (1.16.15).
+    
+    >> Create account for program to read/write its data...
+    ... creating program derived account
+    --- result : ()
+    
+    >> Info
+    User   : H9dYcCxtUyTSancZSxYmqQwzDL3F5e5tR9KkQWwndjAr
+    Balance: 3.8330816 Sol (3_833_081_600 lamports)
+    Program: J9xLr2gjyFMpczfWzshmZVZewm1wYES2GNHHznr3Xt8T
+    PDA    : 3NqMxjwgK2t3VUr39FLccEWkU573d4jz3EQCMZKBQjun
+      (aka Program's data account to read/write)
+      (aka Derived addr for a given user and program combination)
+    PDA seed: user10
+    
+    >> Creating new user profile onchain...
+    --- result : Ok(())
+    
+    >> Reading chain data...
+    
+    Program Object for account seed 'user10':
+    UserProfile {
+        user_id: 3NqMxjwgK2t3VUr39FLccEWkU573d4jz3EQCMZKBQjun,
+        followers: 100,
+        blocked_account: false,
+    }
+    
+    End
+```
+
+
+## 2. Setup
+
+#### Versions used:  
 solana-cli 1.17.1   
 20.04.1-Ubuntu LTS  
 
@@ -33,4 +83,14 @@ Change `keypair_path` value with your keypair path:
 vim ~/.config/solana/cli/config.yml  
 keypair_path: /home/<user>/my-solana-wallet/my-keypair.json
 ```
+#### Make sure you have some SOL, helper cmds: 
+```
+solana balance
+3.834235 SOL
 
+solana address
+H9dYcCxtUyTSancZSxYmqQwzDL3F5e5tR9KkQWwndjAr
+
+solana airdrop 2 
+or https://solfaucet.com (select Devnet)
+```
