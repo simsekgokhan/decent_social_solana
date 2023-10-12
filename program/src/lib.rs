@@ -44,7 +44,7 @@ pub fn process_instruction(
         msg!("--- instruction CreateNewProfile");
         let mut program_data = UserProfile::try_from_slice(&pda.data.borrow())?;
         program_data.blocked_account = false;
-        program_data.xx = 99;
+        program_data.xx = 65;
         program_data.serialize(&mut &mut pda.data.borrow_mut()[..])?;
         msg!("--- CreateNewProfile Success");
     }    else {
