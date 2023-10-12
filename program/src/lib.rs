@@ -1,10 +1,7 @@
 use borsh::{BorshDeserialize, BorshSerialize};
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
-    entrypoint,
-    entrypoint::ProgramResult,
-    msg,
-    pubkey::Pubkey,
+    entrypoint, entrypoint::ProgramResult, msg, pubkey::Pubkey,
 };
 
 entrypoint!(process_instruction);
@@ -20,7 +17,7 @@ pub struct UserProfile {
 
 #[derive(Copy, Clone)]
 enum ACTION {
-    CreateNewProfile = 1, 
+    CreateNewProfile = 1, // Creates a new user profile on-chain
 }
 
 pub fn process_instruction(
@@ -30,11 +27,6 @@ pub fn process_instruction(
 ) -> ProgramResult {
     let accounts_iter = &mut accounts.iter();
     let pda = next_account_info(accounts_iter)?;
-    msg!("--- instruction_data: {:?}", instruction_data);
-    msg!("--- pda: {}", pda.key);
-    msg!("--- pda.UserProfile: {:?}", UserProfile::try_from_slice(&pda.data.borrow())?);
-    // msg!("--- pda.data: {:?}", pda.data.borrow());
-    msg!("--- accounts.len {}", accounts.len());
 
     // ACTION SELECTOR
     // todo: move to instructions.rs for production uses
@@ -51,6 +43,7 @@ pub fn process_instruction(
         msg!("--- CreateNewProfile Success");
     }    else {
         todo!() 
+        // ... other actions
     }
 
     Ok(())

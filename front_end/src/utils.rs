@@ -6,6 +6,7 @@ use solana_sdk::{
 };
 use yaml_rust::YamlLoader;
 
+/// This must be identical to the type defined in Solana program (smart contract)
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct UserProfile {
     pub user_id: Pubkey,
@@ -28,14 +29,26 @@ pub fn get_program_obj_size() -> Result<usize> {
     // Ok(3 * 4) // array[u32, 3] = 12 bytes
 }
 
-/// pretty_print
-pub fn pp(num: u64) -> String {
+/// Add separator "_" for u64s, e.g. 3_834_260_000
+pub fn add_separator(num: u64) -> String {
     num.to_string().as_bytes().rchunks(3).rev().map(std::str::from_utf8)
        .collect::<std::result::Result<Vec<&str>, _>>().unwrap().join("_")  
        // _ is separator
 }
 
-pub fn get_config() -> Result<yaml_rust::Yaml> {
+pub fn check_program_args() {
+    let args = std::env::args().collect::<Vec<_>>();
+    if args.len() == 2 { return }
+    panic!(
+    "\nError: Wrong number of args.
+       Usage:
+       cargo r <unique_account_seed_string>
+       e.g. cargo r user1 \n
+    ",        
+    )
+}
+
+pub fn get_solana_config() -> Result<yaml_rust::Yaml> {
     let path = match home::home_dir() {
         Some(mut path) => {
             path.push(".config/solana/cli/config.yml");
@@ -60,7 +73,7 @@ pub fn get_config() -> Result<yaml_rust::Yaml> {
 }
 
 pub fn get_rpc_url() -> Result<String> {
-    let config = get_config()?;
+    let config = get_solana_config()?;
     match config["json_rpc_url"].as_str() {
         Some(s) => Ok(s.to_string()),
         None => Err(Error::InvalidConfig(
@@ -69,8 +82,8 @@ pub fn get_rpc_url() -> Result<String> {
     }
 }
 
-pub fn get_user() -> Result<Keypair> {
-    let config = get_config()?;
+pub fn get_user_keypair() -> Result<Keypair> {
+    let config = get_solana_config()?;
     let path = match config["keypair_path"].as_str() {
         Some(s) => s,
         None => {
@@ -85,9 +98,11 @@ pub fn get_user() -> Result<Keypair> {
 }
 
 pub fn seed_for_program_derived_account_creation() -> String {
-    std::env::args().collect::<Vec<_>>()[3].clone() // e.g. "user1"
+    check_program_args();
+    std::env::args().collect::<Vec<_>>()[1].clone() // e.g. "user1"
 }
 
+/// Return program derived account key for (user, program, seed)
 pub fn pda_key(user: &Pubkey, program: &Pubkey) -> Result<Pubkey> {
     Ok(Pubkey::create_with_seed(
         user,

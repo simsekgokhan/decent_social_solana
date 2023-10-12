@@ -1,35 +1,43 @@
 use front_end::client::{
-    create_pda, create_new_user_profile, get_program_obj, get_program, 
-    print_program_info
+    create_pda, create_new_user_profile_tx, establish_connection, 
+    get_program_obj, get_program_keypair, print_program_info
 };
-use front_end::utils::seed_for_program_derived_account_creation;
+use front_end::utils::{
+    check_program_args, get_user_keypair, seed_for_program_derived_account_creation
+};
 
+/// Summary:
+/// This frontend program will create a UserProfile object on Solana
+/// devnet chain and will read the created data from chain.
+/// Hint: See README.md for dev. env. and account setup at root dir.
+/// 
+/// Usage: 
+/// cargo r <unique_account_seed_string>
+/// e.g. cargo r user1
 fn main() {
-    // 1. Connect to Solana devnet
-    let connection = front_end::client::establish_connection();
-    let user = front_end::utils::get_user().unwrap();
+    check_program_args();
+    
+    // Connect to Solana devnet
+    let connection = establish_connection();
+    let user_keypair = get_user_keypair().unwrap();
 
-    // todo: make this fn
-    // 2. Create account (if needed) for program to write its data 
-    println!("\n>> Create account for program to read/write its data...");
-    // todo: check arg count
-    let args = std::env::args().collect::<Vec<_>>();
-    let program_keypair = &args[1];
-    let program = get_program(program_keypair, &connection).unwrap();
-    let res = create_pda(&user, &program, &connection).unwrap();
-    println!("--- result : {:?}", res);
+    // Create account (if needed) for program to write its data 
+    println!("\n>> Create account for program to read/write its data...");    
+    let program_keypair = get_program_keypair(&connection).unwrap();
+    let result = create_pda(&user_keypair, &program_keypair, &connection).unwrap();
+    println!("--- result : {:?}", result);
 
-    // 3. Print some info
-    print_program_info(&user, &connection, &program);
+    // Print some info
+    print_program_info(&user_keypair, &connection, &program_keypair);
 
-    // 4. Create new user profile
+    // Create new user profile
     println!("\n>> Creating new user profile...");
-    let res = create_new_user_profile(&user, &program, &connection);
-    println!("--- result : {:?}", res);
+    let result = create_new_user_profile_tx(&user_keypair, &program_keypair, &connection);
+    println!("--- result : {:?}", result);
 
-    // 5. Get chain data
+    // Get chain data
     println!("\n>> Retreving chain data...");
-    let program_obj = get_program_obj(&user, &program, &connection).unwrap();
+    let program_obj = get_program_obj(&user_keypair, &program_keypair, &connection).unwrap();
     let seed = seed_for_program_derived_account_creation();
     println!("\nProgram Object for account seed '{}':\n{:#?}", seed, program_obj);
 
