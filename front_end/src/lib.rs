@@ -3,6 +3,11 @@ use thiserror::Error;
 pub mod client;
 pub mod utils;
 
+#[cfg(test)]
+mod integration_tests {
+    mod user_profile_tests;
+}
+
 #[derive(Error, Debug)]
 pub enum Error {
     #[error("failed to read solana config file: ({0})")]

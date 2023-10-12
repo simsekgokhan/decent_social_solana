@@ -98,6 +98,7 @@ pub fn get_user_keypair() -> Result<Keypair> {
 }
 
 pub fn seed_for_program_derived_account_creation() -> String {
+    if cfg!(test) { return "user_test_99".to_string() }
     check_program_args();
     std::env::args().collect::<Vec<_>>()[1].clone() // e.g. "user1"
 }
