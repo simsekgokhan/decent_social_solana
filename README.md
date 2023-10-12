@@ -1,5 +1,15 @@
 # decent_social (Decentralized Social Media DApp)
 
+This repository demonstrates how to build/deploy/use/test an initial version of a decentralized social media program (smart contract) and its front end code on the Solana blockchain.
+
+Summary of work done:
+- Solana tools installed from scratch on Ubuntu 20.04, devnet configured, account created (all are documented in [section 2. Setup](README.md#2-setup))
+- [decent_social](program) Solana program (smart contract)   
+- [front_end](front_end) demo app. (client, utility and main.rs functions)
+- [Integration tests](front_end/src/integration_tests)
+- Unit tests todo
+- CI testing todo
+
 This repo consists of two independent projects, for convinience they are placed together.   
 `program` directory has Solana program (smart contract).  
 `front_end` directory has the client side app.  
