@@ -3,7 +3,6 @@ use crate::UserProfile;
 #[allow(unused_imports)]
 use std::str::FromStr; // this is used, disabling false warning
 
-// todo: return result
 pub fn init_new_profile(user_profile: &mut UserProfile, pda_key: Pubkey)  {
     user_profile.user_id = pda_key;
     user_profile.blocked_account = false;
