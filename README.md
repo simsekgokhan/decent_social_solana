@@ -9,6 +9,7 @@ Summary of work done:
 - [Integration tests](front_end/src/integration_tests)
 - [Unit tests](https://github.com/gsimsekfb/decent_social/blob/main/program/src/instruction.rs#L13)
 - [CI (Continuous Integration) tests](.github/workflows) (using [github actions](https://github.com/gsimsekfb/decent_social/actions))
+- `cargo clippy` used
 
 This repo consists of two independent projects, for convinience they are placed together.   
 `program` directory has Solana program (smart contract).  
