@@ -59,6 +59,22 @@ cargo r user10
     End
 ```
 
+#### Unit tests
+```
+~/decent_social/program$ cargo t
+    running 2 tests
+    test instruction::user_profile_unit_tests::create_new_profile_with_default_values ... ok
+    test instruction::user_profile_unit_tests::init_new_profile_ ... ok
+    test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+```
+
+#### Integration tests
+```
+~/decent_social/front_end$ cargo t
+    running 1 test   
+    test integration_tests::user_profile_tests::test_new_user_profile_with_dummy_values ... ok
+    test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.39s
+```
 
 ## 2. Setup
 
