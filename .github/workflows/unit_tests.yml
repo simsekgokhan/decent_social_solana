@@ -1,4 +1,4 @@
-name: program unit tests
+name: unit tests
 
 on:
   push:
@@ -14,5 +14,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3 
-    - name: Run program unit tests
+    - name: Run unit tests
       run: cd program && cargo t
