@@ -22,7 +22,7 @@ pub fn get_program_obj_size() -> Result<usize> {
             blocked_account: false 
         }
         .try_to_vec()
-        .map_err(|e| Error::SerializationError(e))?;
+        .map_err(Error::SerializationError)?;
     Ok(encoded.len())
     // E.g.
     // Ok(4 + (3 * 4)) // vec<u32> w/ 3 elements
@@ -61,7 +61,7 @@ pub fn get_solana_config() -> Result<yaml_rust::Yaml> {
             )));
         }
     };
-    let config = std::fs::read_to_string(path).map_err(|e| Error::ConfigReadError(e))?;
+    let config = std::fs::read_to_string(path).map_err(Error::ConfigReadError)?;
     let mut config = YamlLoader::load_from_str(&config)?;
     match config.len() {
         1 => Ok(config.remove(0)),
@@ -114,7 +114,7 @@ pub fn pda_key(user: &Pubkey, program: &Pubkey) -> Result<Pubkey> {
 
 pub fn get_program_obj(data: &[u8]) -> Result<UserProfile> {
     let decoded = UserProfile::try_from_slice(data).map_err(
-        |e| Error::SerializationError(e)
+        Error::SerializationError
     )?;
     Ok(decoded)
 }

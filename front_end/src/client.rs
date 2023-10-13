@@ -26,7 +26,7 @@ pub fn establish_connection() -> RpcClient {
 
 pub fn print_program_info(user: &Keypair, connection: &RpcClient, program: &Keypair) {
     println!("\n>> Info");
-    let user_balance = get_user_balance(&user, &connection).unwrap();
+    let user_balance = get_user_balance(user, connection).unwrap();
     println!("User   : {:?}", user.pubkey());
     println!("Balance: {} Sol ({} lamports)", 
         lamports_to_sol(user_balance), add_separator(user_balance)
@@ -81,7 +81,7 @@ pub fn create_pda(
     println!("--- min_balance_for_rent_exemption: {}", add_separator(lamport_requirement));
 
     let mut success = false;
-    if let Err(_) = connection.get_account(&program_derived_account) {
+    if connection.get_account(&program_derived_account).is_err() {
         println!("... creating program derived account");
         let instruction = solana_sdk::system_instruction::create_account_with_seed(
             &user.pubkey(),
@@ -114,7 +114,7 @@ pub fn get_program_obj(
         pda_key(&user.pubkey(), &program.pubkey())?;
     let account = connection.get_account(&account_key)?;
     // println!("--- program derived account: {:?}", &account.data);
-    Ok(crate::utils::get_program_obj(&account.data)?)
+    crate::utils::get_program_obj(&account.data)
 }
 
 // Submit create_new_user_profile transaction (tx) on chain

@@ -19,7 +19,7 @@ pub struct UserProfile {
 }
 
 #[derive(Copy, Clone)]
-enum ACTION {
+enum Action {
     CreateNewProfile = 1, // Creates a new user profile on-chain
 }
 
@@ -35,7 +35,7 @@ pub fn process_instruction(
     // todo: better to use match here but it will be two indentations and
     //       it is more readable with if due to cast to u8
     let fb = instruction_data[0]; // first byte
-    if fb == ACTION::CreateNewProfile as u8 {
+    if fb == Action::CreateNewProfile as u8 {
         msg!("--- instruction CreateNewProfile");
         let mut user_profile = UserProfile::try_from_slice(&pda.data.borrow())?;
         init_new_profile(&mut user_profile, *pda.key);

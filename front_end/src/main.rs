@@ -24,8 +24,7 @@ fn main() {
     // Create account (if needed) for program to write its data 
     println!("\n>> Create account for program to read/write its data...");    
     let program_keypair = get_program_keypair(&connection).unwrap();
-    let result = create_pda(&user_keypair, &program_keypair, &connection).unwrap();
-    println!("--- result : {:?}", result);
+    create_pda(&user_keypair, &program_keypair, &connection).unwrap();
 
     // Print some info
     print_program_info(&user_keypair, &connection, &program_keypair);
