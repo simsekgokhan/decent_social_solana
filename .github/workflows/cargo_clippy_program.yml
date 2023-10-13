@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3 
     - name: Run unit tests
-      run: cd program && cargo t
+      run: cd program && cargo clippy
