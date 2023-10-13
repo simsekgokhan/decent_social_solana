@@ -7,7 +7,7 @@ Summary of work done:
 - [decent_social](program) Solana program (smart contract)   
 - [front_end](front_end) demo app. (client, utility and main.rs functions)
 - [Integration tests](front_end/src/integration_tests)
-- Unit tests todo
+- [Unit tests](https://github.com/gsimsekfb/decent_social/blob/main/program/src/instruction.rs#L13)
 - CI testing todo
 
 This repo consists of two independent projects, for convinience they are placed together.   
