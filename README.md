@@ -15,7 +15,7 @@ This repo consists of two independent projects, for convinience they are placed 
 `front_end` directory has the client side app.  
 
 ## 1. How to use
-Hint: For first time users, see section 2. Setup below.
+Hint: For first time users, see [section 2. Setup](README.md#2-setup) below.
 
 #### Build & Deploy Solana program (smart contract)
 
@@ -25,7 +25,7 @@ cargo build-bpf
 solana program deploy target/deploy/decent_social.so 
 ```
 
-#### Use deployed Solana program 
+#### Use deployed Solana program with front_end demo app
 ```
 cd front_end
 cargo r user10
