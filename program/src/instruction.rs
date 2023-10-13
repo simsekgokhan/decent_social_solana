@@ -10,8 +10,10 @@ pub fn init_new_profile(user_profile: &mut UserProfile, pda_key: Pubkey)  {
     user_profile.followers = 100;
 }
 
+// Note: These unit tests (and UserProfile definition) should be in user_profile.rs 
+// but for now since this is a small demo app, they are located here
 #[cfg(test)]
-mod profile_unit_tests {
+mod user_profile_unit_tests {
     use super::*;
 
     #[test]
