@@ -2,7 +2,7 @@
 
 This repository demonstrates how to build/deploy/use/test an initial version of a decentralized social media program (smart contract) and its front end code on the Solana blockchain.
 
-Summary of work done:
+Summary:  
 - Solana tools installed from scratch on Ubuntu 20.04, devnet configured, account created (all are documented in [section 2. Setup](README.md#2-setup) below)
 - [decent_social](program) Solana program (smart contract)   
 - [front_end](front_end) demo app. (client, utility and main.rs functions)
