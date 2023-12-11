@@ -27,13 +27,15 @@ pub fn establish_connection() -> RpcClient {
 pub fn print_program_info(user: &Keypair, connection: &RpcClient, program: &Keypair) {
     println!("\n>> Info");
     let user_balance = get_user_balance(user, connection).unwrap();
-    println!("User   : {:?}", user.pubkey());
-    println!("Balance: {} Sol ({} lamports)", 
+    print!("User   : {:?}", user.pubkey());
+    println!(", Balance: {} Sol ({} lamports)", 
         lamports_to_sol(user_balance), add_separator(user_balance)
     );    
     println!("Program: {:?}", program.pubkey());
     let pda = pda_key(&user.pubkey(), &program.pubkey()).unwrap();
-    println!("PDA    : {:?}", pda);
+    print!("PDA    : {:?}", pda);
+    let pda_balance = connection.get_balance(&pda).unwrap();
+    println!(", Balance: {} lamports", add_separator(pda_balance));
     println!("  (aka Program's data account to read/write)");
     println!("  (aka Derived addr for a given user and program combination)");
     println!("PDA seed: {}\n", seed_for_program_derived_account_creation());
