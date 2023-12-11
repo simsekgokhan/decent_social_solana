@@ -17,10 +17,9 @@ exclude_entrypoint = []
 
 [dependencies]
 borsh = "0.9.1"
-solana-program = "1.13.6"
 mspl = { path = "../../my_solana_program_library" }
 # mspl = { git = "https://github.com/simsekgokhan/my_solana_program_library", branch = "main" }
-
+solana-program = "1.13.6"
 
 [lib]
 name = "decent_social"

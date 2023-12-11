@@ -18,7 +18,7 @@ pub struct UserProfile {
     pub blocked_account: bool,
 }
 
-#[derive(Copy, Clone)]
+#[repr(u8)]
 enum Action {
     CreateNewProfile         = 1, // Creates a new user profile on-chain
     TransferSolFromPdaToUser = 2, 
@@ -44,9 +44,10 @@ pub fn process_instruction(
         user_profile.serialize(&mut &mut pda.data.borrow_mut()[..])?;
         msg!("--- CreateNewProfile Success");
     } 
-    else if fb == Action::TransferSolFromPdaToUser as u8{
+    else if fb == Action::TransferSolFromPdaToUser as u8 {
         msg!("--- Executing instruction TransferSolFromPdaToUser ...");
-        mspl::system::transfer_sol(&pda, &user, 10);
+        let result = mspl::system::transfer_sol(&pda, &user, 10);
+        msg!("--- result : {:?}", result);
         msg!("--- TransferSolFromPdaToUser Success");
     }
     else {
