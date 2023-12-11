@@ -20,7 +20,8 @@ pub struct UserProfile {
 
 #[derive(Copy, Clone)]
 enum Action {
-    CreateNewProfile = 1, // Creates a new user profile on-chain
+    CreateNewProfile         = 1, // Creates a new user profile on-chain
+    TransferSolFromPdaToUser = 2, 
 }
 
 pub fn process_instruction(
@@ -30,20 +31,26 @@ pub fn process_instruction(
 ) -> ProgramResult {
     let accounts_iter = &mut accounts.iter();
     let pda = next_account_info(accounts_iter)?;
+    let user = next_account_info(accounts_iter)?;
 
     // ACTION SELECTOR
     // todo: better to use match here but it will be two indentations and
     //       it is more readable with if due to cast to u8
     let fb = instruction_data[0]; // first byte
     if fb == Action::CreateNewProfile as u8 {
-        msg!("--- instruction CreateNewProfile");
+        msg!("--- Executing instruction CreateNewProfile ...");
         let mut user_profile = UserProfile::try_from_slice(&pda.data.borrow())?;
         init_new_profile(&mut user_profile, *pda.key);
         user_profile.serialize(&mut &mut pda.data.borrow_mut()[..])?;
         msg!("--- CreateNewProfile Success");
-    } else {
-        todo!() 
-        // ... other actions
+    } 
+    else if fb == Action::TransferSolFromPdaToUser as u8{
+        msg!("--- Executing instruction TransferSolFromPdaToUser ...");
+        mspl::system::transfer_sol(&pda, &user, 10);
+        msg!("--- TransferSolFromPdaToUser Success");
+    }
+    else {
+      todo!() 
     }
 
     Ok(())

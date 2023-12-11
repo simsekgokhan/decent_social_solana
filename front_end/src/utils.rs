@@ -38,13 +38,13 @@ pub fn add_separator(num: u64) -> String {
 
 pub fn check_program_args() {
     let args = std::env::args().collect::<Vec<_>>();
-    if args.len() == 2 { return }
+    if args.len() == 3 { return }
     panic!(
     "\nError: Wrong number of args.
        Usage:
-       cargo r <unique_account_seed_string>
-       e.g. cargo r user1 \n
-    ",        
+       cargo r <unique_account_seed_string> <action>
+       e.g. cargo r user1 t \n
+    ",
     )
 }
 

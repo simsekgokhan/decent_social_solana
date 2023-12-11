@@ -1,6 +1,7 @@
 use front_end::client::{
     create_pda, create_new_user_profile_tx, establish_connection, 
-    get_program_obj, get_program_keypair, print_program_info
+    get_program_obj, get_program_keypair, print_program_info,
+    transfer_sol_from_pda_to_user_tx
 };
 use front_end::utils::{
     check_program_args, get_user_keypair, seed_for_program_derived_account_creation
@@ -29,10 +30,30 @@ fn main() {
     // Print some info
     print_program_info(&user_keypair, &connection, &program_keypair);
 
+    let args = std::env::args().collect::<Vec<_>>();
+    
+    // todo
+    if args[2] == "q" { // early return
+        return;
+    }
+
     // Create new user profile
-    println!("\n>> Creating new user profile...");
-    let result = create_new_user_profile_tx(&user_keypair, &program_keypair, &connection);
-    println!("--- result : {:?}", result);
+    if args[2] == "cnp" {
+        println!("\n>> Creating new user profile...");
+        let result = 
+            create_new_user_profile_tx(&user_keypair, &program_keypair, &connection);
+        println!("--- result : {:?}", result);
+        return;
+    }
+
+    // Transfer sol from pda to user
+    if args[2] == "t" {
+        println!("\n>> Transferring sol from pda to user...");
+        let result = transfer_sol_from_pda_to_user_tx(&user_keypair, &program_keypair, &connection);
+        println!("--- result : {:?}", result);
+        print_program_info(&user_keypair, &connection, &program_keypair);
+        return;
+    }
 
     // Get chain data
     println!("\n>> Retreving chain data...");
